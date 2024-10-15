@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ProtegidaModule } from './protegida/protegida.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 @Module({
@@ -18,6 +19,7 @@ dotenv.config();
     }),
     UsersModule,
     AuthModule,
+    ProtegidaModule,
   ],
   controllers: [],
   providers: [],
