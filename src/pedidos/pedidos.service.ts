@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { Pedido } from './entities/pedido.entity';
 import { User } from 'src/users/entities/user.entity'; // Asegúrate de que la ruta sea correcta
+import { Product } from 'src/product/entities/product.entity'; // Asegúrate de que la ruta sea correcta
 
 @Injectable()
 export class PedidosService {
@@ -13,12 +14,14 @@ export class PedidosService {
     private readonly pedidoRepository: Repository<Pedido>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
   ) {}
 
   async create(createPedidoDto: CreatePedidoDto): Promise<Pedido> {
     // Busca el usuario por su ID
     const user = await this.userRepository.findOne({ where: { id: createPedidoDto.userId } });
-
+    const productos = await this.productRepository.findByIds(createPedidoDto.productos);
     // Si el usuario no existe, lanza un error
     if (!user) {
       throw new Error('Usuario no encontrado');
@@ -27,6 +30,7 @@ export class PedidosService {
     // Crea una nueva instancia de Pedido
     const pedido = this.pedidoRepository.create({
       user, // Asocia el usuario encontrado
+      productos,
       fecha: new Date(), // Asignamos la fecha actual
       // Aquí puedes añadir otros campos si es necesario
     });

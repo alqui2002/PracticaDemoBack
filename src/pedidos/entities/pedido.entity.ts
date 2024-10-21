@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+// src/pedido/entities/pedido.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Product } from 'src/product/entities/product.entity';
 
 @Entity()
 export class Pedido {
@@ -8,11 +10,13 @@ export class Pedido {
   id: number;
 
   @ManyToOne(() => User, user => user.pedidos, { eager: true })
-  @JoinColumn({ name: 'userId' }) // columna en la tabla de pedidos que hace referencia al usuario
   user: User;
 
   @Column()
   fecha: Date;
 
-  // Aquí puedes añadir otros campos según lo necesites
+  @ManyToMany(() => Product, product => product.pedidos, { eager: true })
+  @JoinTable() // Esto se usa para definir la tabla de unión
+  productos: Product[];
 }
+

@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn,} from 'typeorm';
+import { Pedido } from 'src/pedidos/entities/pedido.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany,} from 'typeorm';
 
 
 @Entity()
@@ -15,5 +16,8 @@ export class Product {
 
   @Column('decimal')
   precio: number;
+  
+  @ManyToMany(() => Pedido, pedido => pedido.productos) // Relación con Pedido
+  pedidos: Pedido[]; // Propiedad para establecer la relación inversa
 
 }
