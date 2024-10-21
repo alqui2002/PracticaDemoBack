@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { Pedido } from './entities/pedido.entity';
-import { User } from 'src/users/entities/user.entity'; // Asegúrate de que la ruta sea correcta
-import { Product } from 'src/product/entities/product.entity'; // Asegúrate de que la ruta sea correcta
+import { User } from 'src/users/entities/user.entity'; 
+import { Product } from 'src/product/entities/product.entity'; 
 
 @Injectable()
 export class PedidosService {
@@ -19,25 +19,27 @@ export class PedidosService {
   ) {}
 
   async create(createPedidoDto: CreatePedidoDto): Promise<Pedido> {
-    // Busca el usuario por su ID
+    
     const user = await this.userRepository.findOne({ where: { id: createPedidoDto.userId } });
     const productos = await this.productRepository.findByIds(createPedidoDto.productos);
-    // Si el usuario no existe, lanza un error
+    
     if (!user) {
       throw new Error('Usuario no encontrado');
     }
 
-    // Crea una nueva instancia de Pedido
+    
     const pedido = this.pedidoRepository.create({
-      user, // Asocia el usuario encontrado
+      user, 
       productos,
-      fecha: new Date(), // Asignamos la fecha actual
-      // Aquí puedes añadir otros campos si es necesario
+      fecha: new Date(), 
+      
     });
 
-    // Guarda el nuevo pedido en la base de datos
+   
     return await this.pedidoRepository.save(pedido);
   }
-
-  // Aquí puedes agregar más métodos según sea necesario
+  async findAll(): Promise<Pedido[]> {
+    return await this.pedidoRepository.find({ relations: ['user', 'productos'] }); 
+  }
+  
 }

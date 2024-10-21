@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Controller,  Post, Body } from '@nestjs/common';
+import { Controller,  Post, Body , Get} from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
+import { Pedido } from './entities/pedido.entity';
+
 
 @Controller('pedidos')
 export class PedidosController {
@@ -12,5 +14,8 @@ export class PedidosController {
     return this.pedidosService.create(createPedidoDto);
   }
 
-  
+  @Get()
+  findAll(): Promise<Pedido[]> {
+    return this.pedidosService.findAll();
+  }
 }
