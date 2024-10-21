@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -13,7 +14,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
     }
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET); // Usa la clave secreta desde .env
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); 
       req['user'] = decoded;
       next();
     } catch (err) {

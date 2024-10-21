@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Post} from '@nestjs/common';
 import { ProtegidaService } from './protegida.service';
 

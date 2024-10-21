@@ -1,4 +1,6 @@
-import { Column, Entity } from "typeorm";
+/* eslint-disable prettier/prettier */
+import { Pedido } from 'src/pedidos/entities/pedido.entity';
+import { Entity, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +18,9 @@ export class User {
   
   @Column({ nullable: false })
   password: string;
+
+  
+  @OneToMany(() => Pedido, pedido => pedido.user)
+  pedidos: Pedido[];
+
 }
